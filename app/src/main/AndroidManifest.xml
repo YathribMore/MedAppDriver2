@@ -20,7 +20,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Activity.ResetPasswordActivity"></activity>
+        <activity android:name=".Activity.HospitaorLapotarylList"></activity>
+        <activity android:name=".Activity.LapoteryMainActivity" />
+        <activity android:name=".Activity.HospitalMainActivity" />
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.ResetPasswordActivity" />
         <activity android:name=".Activity.PaymentsActivity" />
         <activity android:name=".Activity.MyOrder" />
         <activity android:name=".Activity.SendRequest" />
@@ -50,7 +54,7 @@
         <activity android:name=".Activity.NewRequest" />
         <activity android:name=".Activity.Register" />
         <activity android:name=".Activity.Login" />
-        <activity android:name=".Activity.MainActivity">
+        <activity android:name=".Activity.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

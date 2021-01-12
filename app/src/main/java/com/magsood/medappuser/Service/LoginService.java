@@ -21,6 +21,7 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.magsood.medappuser.Activity.Login;
+import com.magsood.medappuser.Activity.Main;
 import com.magsood.medappuser.Activity.MainActivity;
 import com.magsood.medappuser.Activity.PinCode;
 import com.magsood.medappuser.Constants;
@@ -131,7 +132,7 @@ if (phoneNumber.length() != 10) {
                                 userPreferences.setPhoneNumber(phoneNumber);
 
                                 Toast.makeText(activity, "تم تسجيل الدخول بنجاح", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(activity, MainActivity.class);
+                                Intent intent = new Intent(activity, Main.class);
                                 activity.startActivity(intent);
 
                             }
