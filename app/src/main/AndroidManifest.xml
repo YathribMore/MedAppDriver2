@@ -20,7 +20,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Activity.HospitaorLapotarylList"></activity>
+        <activity android:name=".Activity.ListOfBokking"></activity>
+        <activity android:name=".Activity.HospitaorLapotarylList" />
         <activity android:name=".Activity.LapoteryMainActivity" />
         <activity android:name=".Activity.HospitalMainActivity" />
         <activity android:name=".Activity.MainActivity" />
