@@ -20,7 +20,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Activity.BookingPosition"></activity>
+        <activity android:name=".Activity.PreviousBooking"></activity>
+        <activity android:name=".Activity.BookingPosition" />
         <activity android:name=".Activity.ListOfBokking" />
         <activity android:name=".Activity.HospitaorLapotarylList" />
         <activity android:name=".Activity.LapoteryMainActivity" />
