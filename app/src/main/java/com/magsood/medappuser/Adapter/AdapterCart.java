@@ -17,10 +17,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.magsood.medappuser.Activity.CartItems;
-import com.magsood.medappuser.Activity.MapsActivity;
+import com.magsood.medappuser.Activity.TestMapActvity;
 import com.magsood.medappuser.Model.ModelCart;
-import com.magsood.medappuser.Model.ModelSearch;
 import com.magsood.medappuser.R;
 import com.magsood.medappuser.Utils.SqlLiteDataBase;
 
@@ -72,13 +70,18 @@ public class AdapterCart extends RecyclerView.Adapter<AdapterCart.ViewHolder> {
         holder.txtShowMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, MapsActivity.class);
+                Intent intent = new Intent(activity, TestMapActvity.class);
                 Log.e("responseAmount", String.valueOf(item.getAmount()));
 
                 intent.putExtra("amount",item.getAmount());
                 intent.putExtra("medicineID",item.getId());
                 intent.putExtra("dropLng",item.getPharmacyLat());
                 intent.putExtra("dropLat",item.getPharmacyLong());
+                intent.putExtra("tradeName",item.getName());
+
+
+
+
 
                 activity.startActivity(intent);
             }

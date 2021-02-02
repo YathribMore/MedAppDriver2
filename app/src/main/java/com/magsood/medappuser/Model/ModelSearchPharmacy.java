@@ -1,6 +1,6 @@
 package com.magsood.medappuser.Model;
 
-public class ModelSearch {
+public class ModelSearchPharmacy {
     private String id;
     String pharmacyID;
     String medicineID;

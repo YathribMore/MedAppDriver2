@@ -1,7 +1,6 @@
 package com.magsood.medappuser.Service;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,12 +19,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.magsood.medappuser.Activity.Login;
 import com.magsood.medappuser.Adapter.AdapterMyOrder;
-import com.magsood.medappuser.Adapter.AdapterSearchResult;
 import com.magsood.medappuser.Constants;
 import com.magsood.medappuser.Model.ModelMyOrder;
-import com.magsood.medappuser.Model.ModelSearch;
 import com.magsood.medappuser.R;
 import com.magsood.medappuser.SharedPrefrense.UserPreferences;
 

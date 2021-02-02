@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.magsood.medappuser.Adapter.AdapterSearchResult;
-import com.magsood.medappuser.Model.ModelSearch;
+import com.magsood.medappuser.Model.ModelSearchPharmacy;
 import com.magsood.medappuser.R;
 import com.magsood.medappuser.Service.SearchService;
 
@@ -29,7 +29,7 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
     RecyclerView recyclerView;
-    ArrayList<ModelSearch> modelSearchArrayList;
+    ArrayList<ModelSearchPharmacy> modelSearchPharmacyArrayList;
     AdapterSearchResult adapterSearchResult;
     AutoCompleteTextView search ;
     SearchService searchService;
@@ -49,7 +49,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         String title = bundle.getString("searchStr");
 
             searchService = new SearchService();
-            searchService.search(this,title);}
+            searchService.searchPharmacy(this,title);}
 
 
         ( (LinearLayout)(findViewById(R.id.back))).setOnClickListener(new View.OnClickListener() {
@@ -96,7 +96,15 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private void searchFun() {
         searchService = new SearchService();
-        searchService.search(this,search.getText().toString());
+
+
+        if(getIntent().getStringExtra("choice").equals("ph"))
+            searchService.searchPharmacy(this,search.getText().toString());
+        else if(getIntent().getStringExtra("choice").equals("ho"))
+            searchService.searchHospital(this,search.getText().toString());
+
+
+
     }
     public void startVoiceRecognition() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);

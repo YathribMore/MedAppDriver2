@@ -105,7 +105,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     private void searchFun() {
         Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
+
         intent.putExtra("searchStr",search.getText().toString());
+        intent.putExtra("choice",getIntent().getStringExtra("choice"));
         startActivity(intent);
 //        searchService = new SearchService();
 //        searchService.search(this,search.getText().toString());

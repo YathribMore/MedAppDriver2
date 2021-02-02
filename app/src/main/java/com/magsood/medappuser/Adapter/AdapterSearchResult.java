@@ -15,10 +15,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.magsood.medappuser.Activity.MapsActivity;
 import com.magsood.medappuser.Activity.TestMapActvity;
 import com.magsood.medappuser.Model.ModelCart;
-import com.magsood.medappuser.Model.ModelSearch;
+import com.magsood.medappuser.Model.ModelSearchPharmacy;
 import com.magsood.medappuser.R;
 import com.magsood.medappuser.Utils.SqlLiteDataBase;
 
@@ -27,11 +26,11 @@ import java.util.ArrayList;
 
 public class  AdapterSearchResult extends RecyclerView.Adapter<AdapterSearchResult.ViewHolder> {
 
-    ArrayList<ModelSearch> arrayList;
+    ArrayList<ModelSearchPharmacy> arrayList;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
     private Activity activity;
-    public AdapterSearchResult(Activity activity, ArrayList<ModelSearch> arrayList) {
+    public AdapterSearchResult(Activity activity, ArrayList<ModelSearchPharmacy> arrayList) {
         this.mInflater = LayoutInflater.from(activity);
         this.arrayList = arrayList;
         this.activity = activity;
@@ -47,7 +46,7 @@ public class  AdapterSearchResult extends RecyclerView.Adapter<AdapterSearchResu
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final ModelSearch item = arrayList.get(position);
+        final ModelSearchPharmacy item = arrayList.get(position);
 
         holder.location.setText(item.getLocation());
         holder.medicineName.setText(item.getPublicName());

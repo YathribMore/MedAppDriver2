@@ -23,6 +23,10 @@ String domain = "Https://www.maqsood.com.sd/api/v1/user";
 
 
 
+    public static String SEARCH_DOCTOR_URL = "http://reservation.maqsood.com.sd/api/v1/user/search?search=Admin";
+
+
+
 
 
 }

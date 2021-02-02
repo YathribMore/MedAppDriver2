@@ -45,6 +45,7 @@ public class CartItems extends AppCompatActivity {
     ArrayList<ModelCart> arrayList;
     AppCompatButton sendOrder;
     Context context = this;
+    Dialog dialog;
 
     UserPreferences userPreferences;
 
@@ -131,7 +132,7 @@ public void send(){
         Log.e("response",finalobject.toString());
 
         RequestService requestService = new RequestService();
-        requestService.sendRequest((Activity) context, finalobject);
+        requestService.sendRequest((Activity) context, finalobject,dialog);
     } catch (JSONException e) {
         e.printStackTrace();
     }
@@ -139,7 +140,7 @@ public void send(){
     public void lastDialog(){
 
 
-        Dialog dialog = new Dialog(context);
+         dialog = new Dialog(context);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.setContentView(R.layout.dialog_last);

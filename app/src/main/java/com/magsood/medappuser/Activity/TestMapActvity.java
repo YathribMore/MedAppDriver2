@@ -525,6 +525,7 @@ public class TestMapActvity extends FragmentActivity implements OnMapReadyCallba
         origin = new MarkerOptions().position(new LatLng(latitudeCurrentLocation, longitudeCurrentLocation)).title("").snippet("origin");
         destination = new MarkerOptions().position(new LatLng(Double.parseDouble(lat), Double.parseDouble(lon))).title("").snippet("destination");
         /////////////////////////////////////////////////////////////
+        destination.title( getIntent().getExtras().getString("tradeName"));
         mMap.addMarker(destination);
         LatLng des= new LatLng(latitudeCurrentLocation,longitudeCurrentLocation);
         /////////////////////////////////////////////////////////

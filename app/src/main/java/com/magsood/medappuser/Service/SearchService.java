@@ -20,8 +20,10 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.magsood.medappuser.Adapter.AdapterSearchResult;
+import com.magsood.medappuser.Adapter.HospitalLapotaryAdapter;
 import com.magsood.medappuser.Constants;
-import com.magsood.medappuser.Model.ModelSearch;
+import com.magsood.medappuser.Model.ModelSearchHospital;
+import com.magsood.medappuser.Model.ModelSearchPharmacy;
 import com.magsood.medappuser.R;
 import com.magsood.medappuser.SharedPrefrense.UserPreferences;
 
@@ -37,15 +39,18 @@ import java.util.Map;
 public class SearchService {
     UserPreferences userPreferences;
     RecyclerView recyclerView;
-    ArrayList<ModelSearch> modelSearchArrayList;
+    ArrayList<ModelSearchPharmacy> modelSearchPharmacyArrayList;
     AdapterSearchResult adapterSearchResult;
+
+    ArrayList<ModelSearchHospital> modelSearchHospitalArrayList;
+    HospitalLapotaryAdapter adapterSearchHospitalResult;
     String message;
 
 
 
     String TAG = "RESPONSE";
 
-    public void search(Activity activity, String searchString) {
+    public void searchPharmacy(Activity activity, String searchString) {
 
 
 
@@ -82,29 +87,29 @@ public class SearchService {
 
                             Log.e("response",jsonArray.toString());
 
-                        modelSearchArrayList = new ArrayList<>();
+                        modelSearchPharmacyArrayList = new ArrayList<>();
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject data = jsonArray.getJSONObject(i);
-                            ModelSearch modelSearch = new ModelSearch();
-                            modelSearch.setId(data.getString("id"));
-                            modelSearch.setPharmacyID(data.getString("pharmacyID"));
-                            modelSearch.setMedicineID(data.getString("medicineID"));
-                            modelSearch.setTradeName(data.getString("tradeName"));
-                            modelSearch.setPublicName(data.getString("publicName"));
-                            modelSearch.setPrice(data.getString("price"));
-                            modelSearch.setPharmacyName(data.getString("name"));
-                            modelSearch.setDescription(data.getString("description"));
-                            modelSearch.setCompnayName(data.getString("compnayName"));
-                            modelSearch.setPhoneNumber(data.getString("phoneNumber"));
-                            modelSearch.setLocation(data.getString("location"));
-                            modelSearch.setLng(data.getString("lng"));
-                            modelSearch.setLat(data.getString("lat"));
-                            modelSearch.setState(data.getString("state"));
+                            ModelSearchPharmacy modelSearchPharmacy = new ModelSearchPharmacy();
+                            modelSearchPharmacy.setId(data.getString("id"));
+                            modelSearchPharmacy.setPharmacyID(data.getString("pharmacyID"));
+                            modelSearchPharmacy.setMedicineID(data.getString("medicineID"));
+                            modelSearchPharmacy.setTradeName(data.getString("tradeName"));
+                            modelSearchPharmacy.setPublicName(data.getString("publicName"));
+                            modelSearchPharmacy.setPrice(data.getString("price"));
+                            modelSearchPharmacy.setPharmacyName(data.getString("name"));
+                            modelSearchPharmacy.setDescription(data.getString("description"));
+                            modelSearchPharmacy.setCompnayName(data.getString("compnayName"));
+                            modelSearchPharmacy.setPhoneNumber(data.getString("phoneNumber"));
+                            modelSearchPharmacy.setLocation(data.getString("location"));
+                            modelSearchPharmacy.setLng(data.getString("lng"));
+                            modelSearchPharmacy.setLat(data.getString("lat"));
+                            modelSearchPharmacy.setState(data.getString("state"));
 
 
-                            modelSearchArrayList.add(modelSearch);
+                            modelSearchPharmacyArrayList.add(modelSearchPharmacy);
                         }
-                        adapterSearchResult = new AdapterSearchResult(activity,modelSearchArrayList);
+                        adapterSearchResult = new AdapterSearchResult(activity, modelSearchPharmacyArrayList);
                         recyclerView.setAdapter(adapterSearchResult);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -168,6 +173,130 @@ public class SearchService {
         VolleySingleton.getInstance(activity).addToRequestQueue(jsonObjReq);
 
     }
+
+
+
+//hospital Search
+
+    public void searchHospital(Activity activity, String searchString) {
+
+
+
+        userPreferences = new UserPreferences(activity );
+
+        recyclerView = activity.findViewById(R.id.recycler);
+
+
+
+
+        Map<String, String> params = new HashMap<>();
+        params.put("searchString", searchString);
+
+        final KProgressHUD progressDialog;// Validation
+        progressDialog = KProgressHUD.create(activity)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("الرجاء الانتظار")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                Constants.SEARCH_DOCTOR_URL+"?token="+userPreferences.getToken(), new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        progressDialog.dismiss();
+
+
+                        try {
+                            Log.e("response",response.get("data").toString());
+                            JSONArray jsonArray = response.getJSONArray("data");
+
+                            Log.e("response",jsonArray.toString());
+
+                            modelSearchHospitalArrayList = new ArrayList<>();
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject data = jsonArray.getJSONObject(i);
+                                ModelSearchHospital modelSearchPharmacy = new ModelSearchHospital();
+                                modelSearchPharmacy.setDocID(data.getString("id"));
+                                modelSearchPharmacy.setDoc_days(data.getString("pharmacyID"));
+                                modelSearchPharmacy.setHospital_address(data.getString("medicineID"));
+                                modelSearchPharmacy.setHospital_city(data.getString("tradeName"));
+                                modelSearchPharmacy.setHospital_lat(data.getString("publicName"));
+                                modelSearchPharmacy.setHospital_lng(data.getString("price"));
+                                modelSearchPharmacy.setHospital_name(data.getString("name"));
+
+
+
+                                modelSearchHospitalArrayList.add(modelSearchPharmacy);
+                            }
+                            adapterSearchHospitalResult = new HospitalLapotaryAdapter(activity, modelSearchHospitalArrayList);
+                            recyclerView.setAdapter(adapterSearchResult);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                // As of f605da3 the following should work
+                NetworkResponse response = error.networkResponse;
+                if (error instanceof ServerError && response != null) {
+                    try {
+                        String res = new String(response.data,
+                                HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                        // Now you can use any deserializer to make sense of data
+                        JSONObject obj = new JSONObject(res);
+                        Log.e("responseError",obj.toString());
+                        Log.e("response",userPreferences.getToken());
+                        message = "المنتج غير موجود";
+                    } catch (UnsupportedEncodingException e1) {
+                        // Couldn't properly decode data to string
+                        e1.printStackTrace();
+                    } catch (JSONException e2) {
+                        // returned data is not JSONObject?
+                        e2.printStackTrace();
+                    }
+                }
+                if (error instanceof NetworkError) {
+                    message="الرجاء التاكد من الانترنت";
+                } else if (error instanceof AuthFailureError) {
+                    message = "غير موجود";
+                } else if (error instanceof ParseError) {
+                    message="الرجاء التاكد من الانترنت";
+                } else if (error instanceof NoConnectionError) {
+                    message="الرجاء التاكد من الانترنت";
+                } else if (error instanceof TimeoutError) {
+                    message="الرجاء التاكد من الانترنت";
+                }
+                Toast.makeText(activity,message,Toast.LENGTH_SHORT).show();
+            }
+
+
+        }) {
+
+
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                // Removed this line if you dont need it or Use application/json
+                params.put("Content-Type", "application/json");
+                return params;
+            }
+
+
+        };
+//
+        VolleySingleton.getInstance(activity).addToRequestQueue(jsonObjReq);
+
+    }
+
+
 
     public ArrayList<String> getMedicine(Activity activity) {
 

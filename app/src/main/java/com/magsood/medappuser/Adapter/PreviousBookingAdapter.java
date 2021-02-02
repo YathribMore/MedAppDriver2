@@ -12,18 +12,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.magsood.medappuser.Model.ModelSearch;
+import com.magsood.medappuser.Model.ModelSearchPharmacy;
 import com.magsood.medappuser.R;
 
 import java.util.ArrayList;
 
 public class PreviousBookingAdapter extends RecyclerView.Adapter<PreviousBookingAdapter.ViewHolder> {
     private static LayoutInflater inflater = null;
-    ArrayList<ModelSearch> newsPaperArrayList;
+    ArrayList<ModelSearchPharmacy> newsPaperArrayList;
     private LayoutInflater mInflater;
     Context mContext;
 
-    public PreviousBookingAdapter(Context mContext, ArrayList<ModelSearch> newsPaperArrayList) {
+    public PreviousBookingAdapter(Context mContext, ArrayList<ModelSearchPharmacy> newsPaperArrayList) {
         this.newsPaperArrayList = newsPaperArrayList;
         this.mContext = mContext;
         this.mInflater = LayoutInflater.from(mContext);
@@ -42,7 +42,7 @@ public class PreviousBookingAdapter extends RecyclerView.Adapter<PreviousBooking
     @Override
     public void onBindViewHolder(ViewHolder mHolder, int position) {
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final ModelSearch item = newsPaperArrayList.get(position);
+        final ModelSearchPharmacy item = newsPaperArrayList.get(position);
     }
 
     @Override

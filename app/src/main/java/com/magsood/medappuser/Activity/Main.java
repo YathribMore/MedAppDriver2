@@ -23,20 +23,23 @@ LinearLayout hospital,pharmacy,lapotary;
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Main.this, MainActivity.class);
+                intent.putExtra("choice","ph");
                 startActivity(intent);
             }
         });
         hospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main.this,HospitalMainActivity.class);
+                Intent intent = new Intent(Main.this,MainActivity.class);
+                intent.putExtra("choice","ho");
                 startActivity(intent);
             }
         });
         lapotary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Main.this,LapoteryMainActivity.class);
+                Intent intent = new Intent(Main.this,MainActivity.class);
+                intent.putExtra("choice","lap");
                 startActivity(intent);
             }
         });
