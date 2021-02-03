@@ -68,6 +68,9 @@
                     android:textStyle="bold"/>
             </LinearLayout>
                 <TextView
+
+
+                    android:id="@+id/titleApp"
                     android:layout_marginLeft="@dimen/margin_normal_size"
                     android:layout_marginRight="@dimen/margin_normal_size"
                     android:textColor="#FFFFFF"

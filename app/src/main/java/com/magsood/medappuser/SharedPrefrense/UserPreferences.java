@@ -9,6 +9,7 @@ public class UserPreferences {
 
 
 
+
     public static final String MyPREFERENCES = "data" ;
     SharedPreferences sharedpreferences;
     Context context;
@@ -25,12 +26,27 @@ public class UserPreferences {
 
     }
 
+
+    public String  getChoice(){
+        return sharedpreferences.getString("choice","");
+
+
+    }
+
+
     public String  getlat(){
         return sharedpreferences.getString("lat","");
 
 
     }
 
+    public void setChoice(String choice){
+
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("choice",choice);
+        editor.apply();
+    }
 
     public void setlat(String lat){
 

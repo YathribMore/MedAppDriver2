@@ -66,6 +66,36 @@ public class ModelSearchHospital {
     String hospital_lng;
     String hospital_city;
     String doc_days;
+    String doctor_name;
+
+    public String getDoctor_name() {
+        return doctor_name;
+    }
+
+    public void setDoctor_name(String doctor_name) {
+        this.doctor_name = doctor_name;
+    }
+
+    public String getDoctor_phone() {
+        return doctor_phone;
+    }
+
+    public void setDoctor_phone(String doctor_phone) {
+        this.doctor_phone = doctor_phone;
+    }
+
+    String doctor_phone;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    String state;
+
 
 
 }

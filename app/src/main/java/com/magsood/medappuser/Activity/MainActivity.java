@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ImageView recordIcon;
     private static final int REQUEST_CODE = 1234;
     UserPreferences userPreferences;
+    TextView titleApp ;
 
     CardView cardSearch;
     @Override
@@ -82,13 +83,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-
+if (userPreferences.getChoice().equals("ph")){
         searchService = new SearchService();
         ArrayList<String> medicine = searchService.getMedicine(this);
         // Create the adapter and set it to the AutoCompleteTextView
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, medicine);
-        search.setAdapter(adapter);
+        search.setAdapter(adapter);}
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -106,14 +107,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void searchFun() {
         Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
 
+
+
+
+
+
         intent.putExtra("searchStr",search.getText().toString());
-        intent.putExtra("choice",getIntent().getStringExtra("choice"));
+//        intent.putExtra("choice",getIntent().getStringExtra("choice"));
         startActivity(intent);
 //        searchService = new SearchService();
 //        searchService.search(this,search.getText().toString());
     }
     private void init() {
         userPreferences = new UserPreferences(this);
+        titleApp = findViewById(R.id.titleApp);
+        if(userPreferences.getChoice().equals("ho")){
+            titleApp.setText("يمكنك الان البحث عن طبيبك");
+        }
         recordIcon= findViewById(R.id.ic_search);
         search = findViewById(R.id.editsearch);
 

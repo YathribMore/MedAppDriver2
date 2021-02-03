@@ -22,6 +22,7 @@ import com.magsood.medappuser.Adapter.AdapterSearchResult;
 import com.magsood.medappuser.Model.ModelSearchPharmacy;
 import com.magsood.medappuser.R;
 import com.magsood.medappuser.Service.SearchService;
+import com.magsood.medappuser.SharedPrefrense.UserPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     SearchService searchService;
     Context context;
     private static final int REQUEST_CODE = 1234;
+    UserPreferences  userPreferences;
     ImageView recordIcon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         Bundle bundle = getIntent().getExtras();
         String title = bundle.getString("searchStr");
 
+
+
             searchService = new SearchService();
-            searchService.searchPharmacy(this,title);}
+            if(userPreferences.getChoice().equals("ph"))
+                searchService.searchPharmacy(this,title);
+            else if(userPreferences.getChoice().equals("ho"))
+                searchService.searchHospital(this,title);
+
+
+        }
 
 
         ( (LinearLayout)(findViewById(R.id.back))).setOnClickListener(new View.OnClickListener() {
@@ -98,9 +108,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         searchService = new SearchService();
 
 
-        if(getIntent().getStringExtra("choice").equals("ph"))
+        if(userPreferences.getChoice().equals("ph"))
             searchService.searchPharmacy(this,search.getText().toString());
-        else if(getIntent().getStringExtra("choice").equals("ho"))
+        else if(userPreferences.getChoice().equals("ho"))
             searchService.searchHospital(this,search.getText().toString());
 
 
@@ -139,6 +149,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     ImageView ic_back;
     private void init() {
+        userPreferences = new UserPreferences(this);
         recordIcon= findViewById(R.id.ic_search);
         ic_back = findViewById(R.id.ic_back);
         ic_back.setOnClickListener(this);

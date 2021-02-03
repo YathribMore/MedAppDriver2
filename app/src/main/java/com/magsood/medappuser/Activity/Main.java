@@ -9,9 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.magsood.medappuser.R;
+import com.magsood.medappuser.SharedPrefrense.UserPreferences;
 
 public class Main extends AppCompatActivity {
 LinearLayout hospital,pharmacy,lapotary;
+
+
+    UserPreferences userPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,11 +23,13 @@ LinearLayout hospital,pharmacy,lapotary;
         hospital=findViewById(R.id.hospitlis);
         pharmacy=findViewById(R.id.pharmaces);
         lapotary=findViewById(R.id.lapotery);
+        userPreferences = new UserPreferences(this);
         pharmacy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Main.this, MainActivity.class);
-                intent.putExtra("choice","ph");
+//                intent.putExtra("choice","ph");
+                userPreferences.setChoice("ph");
                 startActivity(intent);
             }
         });
@@ -31,7 +37,8 @@ LinearLayout hospital,pharmacy,lapotary;
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Main.this,MainActivity.class);
-                intent.putExtra("choice","ho");
+//                intent.putExtra("choice","ho");
+                userPreferences.setChoice("ho");
                 startActivity(intent);
             }
         });
@@ -39,7 +46,8 @@ LinearLayout hospital,pharmacy,lapotary;
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Main.this,MainActivity.class);
-                intent.putExtra("choice","lap");
+//                intent.putExtra("choice","lap");
+                userPreferences.setChoice("lap");
                 startActivity(intent);
             }
         });
