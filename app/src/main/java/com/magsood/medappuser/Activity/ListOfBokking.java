@@ -10,6 +10,8 @@ public class ListOfBokking extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //hospital
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_bokking);
     }

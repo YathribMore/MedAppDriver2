@@ -58,6 +58,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             else if(userPreferences.getChoice().equals("ho"))
                 searchService.searchHospital(this,title);
 
+            else if(userPreferences.getChoice().equals("lap"))
+                searchService.searchLap(this,title);
+
 
         }
 
@@ -80,12 +83,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         startVoiceRecognition();
     }
 });
+
+
+        if(userPreferences.getChoice().equals("ph")){
         searchService = new SearchService();
         ArrayList<String> medicine = searchService.getMedicine(this);
+            ArrayAdapter<String> adapter =
+                    new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, medicine);
+            search.setAdapter(adapter);}
         // Create the adapter and set it to the AutoCompleteTextView
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, medicine);
-        search.setAdapter(adapter);
+
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -112,6 +119,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             searchService.searchPharmacy(this,search.getText().toString());
         else if(userPreferences.getChoice().equals("ho"))
             searchService.searchHospital(this,search.getText().toString());
+        else if(userPreferences.getChoice().equals("lap"))
+            searchService.searchLap(this,search.getText().toString());
 
 
 

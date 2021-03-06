@@ -1,6 +1,49 @@
 package com.magsood.medappuser.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ModelSearchHospital {
+
+    public ArrayList<String> getDays() {
+        return days;
+    }
+
+    public void setDays(ArrayList<String> days) {
+        this.days = days;
+    }
+
+    ArrayList<String>days;
+
+    public List<ModelServices> getModelServices() {
+        return modelServices;
+    }
+
+    public void setModelServices(List<ModelServices> modelServices) {
+        this.modelServices = modelServices;
+    }
+
+    List<ModelServices>modelServices;
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    String specialization;
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    String price;
 
 
     public String getDocID() {

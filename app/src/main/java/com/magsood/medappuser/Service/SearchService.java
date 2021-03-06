@@ -7,12 +7,14 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -25,6 +27,7 @@ import com.magsood.medappuser.Constants;
 import com.magsood.medappuser.Model.ModelSearchHospital;
 import com.magsood.medappuser.Model.ModelSearchLap;
 import com.magsood.medappuser.Model.ModelSearchPharmacy;
+import com.magsood.medappuser.Model.ModelServices;
 import com.magsood.medappuser.R;
 import com.magsood.medappuser.SharedPrefrense.UserPreferences;
 
@@ -35,6 +38,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class SearchService {
@@ -44,6 +49,8 @@ public class SearchService {
     AdapterSearchResult adapterSearchResult;
 
     ArrayList<ModelSearchHospital> modelSearchHospitalArrayList;
+
+    List<ModelServices> modelServices;
 
 
     ArrayList<ModelSearchLap> modelSearchLapArrayList;
@@ -219,27 +226,81 @@ public class SearchService {
 
                             Log.e("response",jsonArray.toString());
 
+
                             modelSearchHospitalArrayList = new ArrayList<>();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject data = jsonArray.getJSONObject(i);
-                                ModelSearchHospital modelSearchPharmacy = new ModelSearchHospital();
-                                modelSearchPharmacy.setDocID(data.getString("docID"));
-                                JSONObject doctorInfo = data.getJSONObject("doctor");
+                                ModelSearchHospital modelSearchHospital = new ModelSearchHospital();
+
+                                JSONObject doctor = data.getJSONObject("doctor");
                                 JSONObject hospitalInfo = data.getJSONObject("hospital");
+                                JSONObject doctorInfo = data.getJSONObject("doc_info");
 
-                                modelSearchPharmacy.setDoctor_name(doctorInfo.getString("fullName"));
-                                modelSearchPharmacy.setDoctor_phone(doctorInfo.getString("phone"));
-                                Log.d("response",doctorInfo.getString("fullName"));
-                                modelSearchPharmacy.setHospital_address(hospitalInfo.getString("address"));
-                                modelSearchPharmacy.setHospital_city(hospitalInfo.getString("city"));
-                                modelSearchPharmacy.setState(hospitalInfo.getString("state"));
-                                modelSearchPharmacy.setHospital_lat(hospitalInfo.getString("lat"));
-                                modelSearchPharmacy.setHospital_lng(hospitalInfo.getString("lng"));
-                                modelSearchPharmacy.setHospital_name(hospitalInfo.getString("name"));
+                                modelSearchHospital.setDocID(doctorInfo.getString("id"));
+                                modelSearchHospital.setPrice(doctorInfo.getString("interviewPrice"));
+                                modelSearchHospital.setSpecialization(doctorInfo.getString("specialization"));
 
 
 
-                                modelSearchHospitalArrayList.add(modelSearchPharmacy);
+                                modelServices = new ArrayList<>();
+                                JSONArray servicess = hospitalInfo.getJSONArray("hospital_services");
+
+                                for (int j=0 ; j<servicess.length();j++){
+
+                                    JSONObject serviceData = servicess.getJSONObject(j);
+                                    ModelServices services = new ModelServices();
+                                    JSONObject info = serviceData.getJSONObject("services");
+                                    services.setService_id(info.getString("id"));
+                                    services.setName(info.getString("name"));
+                                    services.setPrice(info.getString("price"));
+                                    services.setNote(info.getString("note"));
+                                    modelServices.add(services);
+                                }
+
+                                modelSearchHospital.setModelServices(modelServices);
+
+
+
+
+
+                                modelSearchHospital.setDoctor_name(doctor.getString("fullName"));
+                                modelSearchHospital.setDoctor_phone(doctor.getString("phone"));
+                                Log.d("response",doctor.getString("fullName"));
+                                modelSearchHospital.setHospital_address(hospitalInfo.getString("address"));
+                                modelSearchHospital.setHospital_city(hospitalInfo.getString("city"));
+                                modelSearchHospital.setState(hospitalInfo.getString("state"));
+                                modelSearchHospital.setHospital_lat(hospitalInfo.getString("lat"));
+                                modelSearchHospital.setHospital_lng(hospitalInfo.getString("lng"));
+                                modelSearchHospital.setHospital_name(hospitalInfo.getString("name"));
+
+                                JSONObject doc_schedule  =  data.getJSONObject("doc_schedule");
+                                Log.d("doc_schedule",doc_schedule.toString());
+                                Iterator<?> keys = doc_schedule.keys();
+                                ArrayList<String>days = new ArrayList<>();
+
+ for (int temp=0 ;temp<9;temp++) {
+     if (keys.hasNext()) {
+
+         String key = (String) keys.next();
+
+         Log.d("doc_schedule2", String.valueOf(doc_schedule.get(key)));
+         if(temp>1) {
+             if (doc_schedule.get(key).equals(0)) {
+                 days.add(key);
+                 Log.d("doc_schedule3", String.valueOf(doc_schedule.get(key)));
+
+
+                 // do what ever you want with the JSONObject.....
+             }
+         }
+
+     }
+ }
+                                Log.d("daysUser",days.toString());
+                                modelSearchHospital.setDays(days);
+
+
+                                modelSearchHospitalArrayList.add(modelSearchHospital);
                             }
                             adapterSearchHospitalResult = new HospitalLapotaryAdapter(activity, modelSearchHospitalArrayList);
                             recyclerView.setAdapter(adapterSearchHospitalResult);
@@ -366,7 +427,7 @@ public class SearchService {
                 // Removed this line if you dont need it or Use application/json
                 params.put("Content-Type", "application/json");
 
-                params.put("Authorization", "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvd3d3Lm1hcXNvb2QuY29tLnNkXC9hcGlcL3YxXC91c2VyXC9sb2dpbiIsImlhdCI6MTYxMTE0MTc1MywibmJmIjoxNjExMTQxNzUzLCJqdGkiOiJhNXZ5RnFEYUE0ZXRCcnhjIiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.vmsB1vGKTkIRvWe1_uL7TuPyFvsaHQ25bQQcU34GmHs");
+                params.put("Authorization", "Bearer " + userPreferences.getToken());
                 return params;
             }
 
@@ -375,6 +436,11 @@ public class SearchService {
 
 
         {
+            jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                    10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
 
 
         }
@@ -431,22 +497,39 @@ public class SearchService {
                                 ModelSearchLap modelSearchLap = new ModelSearchLap();
                                 modelSearchLap.setLapID(data.getString("labID"));
                                 modelSearchLap.setPrice(data.getString("price"));
-                                JSONObject lapInfo = data.getJSONObject("lap");
-                                JSONObject lapService = data.getJSONObject("hospital");
+                                JSONObject lapInfo = data.getJSONObject("lab");
+                                modelSearchLap.setLabDiagnosisID(data.getString("id"));
+
 
                                 modelSearchLap.setLap_name(lapInfo.getString("name"));
 
-                                Log.d("response",lapInfo.getString("fullName"));
                                 modelSearchLap.setAddress(lapInfo.getString("address"));
                                 modelSearchLap.setCity(lapInfo.getString("city"));
                                 modelSearchLap.setState(lapInfo.getString("state"));
                                 modelSearchLap.setLapPhone(lapInfo.getString("phone"));
+                                modelServices = new ArrayList<>();
+                                JSONArray lapService = data.getJSONArray("lab_services");
+
+                                for (int j=0 ; j<lapService.length();j++){
+
+                                    JSONObject serviceData = lapService.getJSONObject(j);
+                                    ModelServices services = new ModelServices();
+
+                                    services.setService_id(serviceData.getString("labID"));
+                                    services.setName(serviceData.getString("name"));
+                                    services.setPrice(serviceData.getString("price"));
+                                    services.setNote(serviceData.getString("note"));
+                                    modelServices.add(services);
+                                }
+
+                                modelSearchLap.setModelServices(modelServices);
+
 
 
 
                                 modelSearchLapArrayList.add(modelSearchLap);
                             }
-                            adapterSearchHospitalResult = new HospitalLapotaryAdapter(activity, modelSearchHospitalArrayList);
+                            adapterSearchHospitalResult = new HospitalLapotaryAdapter(activity, modelSearchLapArrayList);
                             recyclerView.setAdapter(adapterSearchHospitalResult);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -547,10 +630,21 @@ public class SearchService {
                     }
                     message="الرجاء التاكد من الانترنت";
                 } else if (error instanceof TimeoutError) {
-                    //                        String res = new String(response.data,
-//                                HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-//                        // Now you can use any deserializer to make sense of data
-//                        JSONObject obj = new JSONObject(res);
+                    try {
+                        String res = new String(response.data,
+                                HttpHeaderParser.parseCharset(response.headers, "utf-8"));
+                        // Now you can use any deserializer to make sense of data
+                        JSONObject obj = new JSONObject(res);
+                        Log.e("responseError",obj.toString());
+                        Log.e("response",userPreferences.getToken());
+                        message = "المنتج غير موجود";
+                    } catch (UnsupportedEncodingException e1) {
+                        // Couldn't properly decode data to string
+                        e1.printStackTrace();
+                    } catch (JSONException e2) {
+                        // returned data is not JSONObject?
+                        e2.printStackTrace();
+                    }
                     Log.e("responseError",error.toString());
                     Log.e("response",userPreferences.getToken());
                     message = "المنتج غير موجود";
@@ -565,13 +659,14 @@ public class SearchService {
 
 
 
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> params = new HashMap<String, String>();
                 // Removed this line if you dont need it or Use application/json
                 params.put("Content-Type", "application/json");
 
-                params.put("Authorization", "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvd3d3Lm1hcXNvb2QuY29tLnNkXC9hcGlcL3YxXC91c2VyXC9sb2dpbiIsImlhdCI6MTYxMTE0MTc1MywibmJmIjoxNjExMTQxNzUzLCJqdGkiOiJhNXZ5RnFEYUE0ZXRCcnhjIiwic3ViIjo3LCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.vmsB1vGKTkIRvWe1_uL7TuPyFvsaHQ25bQQcU34GmHs");
+                params.put("Authorization", "Bearer " + userPreferences.getToken());
                 return params;
             }
 
@@ -580,10 +675,35 @@ public class SearchService {
 
 
         {
+            jsonObjReq.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 50000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 50000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
 
 
         }
 
+        {
+            jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                    10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+
+        }
 
 //
         VolleySingleton.getInstance(activity).addToRequestQueue(jsonObjReq);
@@ -696,6 +816,17 @@ public class SearchService {
 
 
         };
+
+
+        {
+            jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(
+                    10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+
+
+        }
 //
         VolleySingleton.getInstance(activity).addToRequestQueue(jsonObjReq);
 

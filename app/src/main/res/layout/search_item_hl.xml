@@ -18,7 +18,8 @@
             android:weightSum="1"
             android:orientation="horizontal">
             <LinearLayout
-                android:visibility="gone"
+                android:id="@+id/booking"
+
                 android:gravity="center_vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -110,12 +111,12 @@
                     android:layout_margin="@dimen/margin_small_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="اسم المستشفى "
+                    android:text="التخصص  "
                     android:textStyle="bold"
                     android:textSize="@dimen/txt_normal_size"/>
                 <TextView
 
-                    android:id="@+id/hospitalName"
+                    android:id="@+id/specialization"
                     android:layout_margin="@dimen/margin_small_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -1,12 +1,35 @@
 package com.magsood.medappuser.Model;
 
+import java.util.List;
+
 public class ModelSearchLap {
 
 
 
     private String lapID;
     String lap_name;
+    String labDiagnosisID;
+
+    public String getLabDiagnosisID() {
+        return labDiagnosisID;
+    }
+
+    public void setLabDiagnosisID(String labDiagnosisID) {
+        this.labDiagnosisID = labDiagnosisID;
+    }
+
     String price,lapPhone,state,city,address,note;
+
+
+    public List<ModelServices> getModelServices() {
+        return modelServices;
+    }
+
+    public void setModelServices(List<ModelServices> modelServices) {
+        this.modelServices = modelServices;
+    }
+
+    List<ModelServices> modelServices;
 
     public String getLapID() {
         return lapID;

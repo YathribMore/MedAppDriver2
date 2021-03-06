@@ -123,6 +123,10 @@ if (userPreferences.getChoice().equals("ph")){
         titleApp = findViewById(R.id.titleApp);
         if(userPreferences.getChoice().equals("ho")){
             titleApp.setText("يمكنك الان البحث عن طبيبك");
+        }else if(userPreferences.getChoice().equals("lap")){
+
+            titleApp.setText("يمكنك الان البحث عن معمل ");
+
         }
         recordIcon= findViewById(R.id.ic_search);
         search = findViewById(R.id.editsearch);

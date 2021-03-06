@@ -18,6 +18,7 @@
             android:weightSum="1"
             android:orientation="horizontal">
             <LinearLayout
+
                 android:gravity="center_vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -88,7 +89,7 @@
                     android:layout_alignParentLeft="true"/>
 
                 <TextView
-                    android:id="@+id/txtPharmachy"
+                    android:id="@+id/hospitalName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_small_size"
@@ -113,7 +114,7 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/txt_normal_size"/>
                 <TextView
-                    android:id="@+id/pharmcyName"
+                    android:id="@+id/specialization"
                     android:layout_margin="@dimen/margin_small_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -173,7 +174,7 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/txt_normal_size"/>
                 <TextView
-                    android:id="@+id/location"
+                    android:id="@+id/doctorName"
                     android:layout_margin="@dimen/margin_small_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
